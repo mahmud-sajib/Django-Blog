@@ -6,7 +6,7 @@ from django.contrib.auth.models import User
 
 class Author(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
-    thumbnail = models.ImageField()
+    profile_pic = models.ImageField(default="default_pro_pic.png", null=True, blank=True)
 
     def __str__(self):
         return self.user.username
@@ -25,7 +25,7 @@ class Post(models.Model):
     author = models.ForeignKey(Author, on_delete=models.CASCADE)
     thumbnail = models.ImageField()
     categories = models.ManyToManyField(Category)
-    featured = models.BooleanField()
+    featured = models.BooleanField(default=False)
 
     def __str__(self):
         return self.title
