@@ -1,0 +1,32 @@
+{% extends "base.html" %}
+{% load static %}
+{% block content %}
+<div class="container">
+    <div class="row">
+        <div class="col-12 spacing">
+            <h1 class="text-center" style="margin-bottom:70px;">Search Result for <span class="q-term">{{ search_query }}</span></h1>
+            {% if q_count > 0 %}
+                <h2 class="text-center"> 
+                    <span class="match-q">{{ q_count }}</span> Match{{ q_count | pluralize:"es" }} Found
+                </h2>
+                {% for post in queryset %}
+                <div class="col-12 text-left">
+                    <a href="{% url 'post-detail' post.slug %}">
+                        <h3 class="h4">{{ post.title }}</h3>
+                    </a>
+                    <p class="text-muted">{{ post.overview }}</p>
+                </div>
+                {% endfor %}
+            {% else %}
+            <h2 class="text-center"> 
+                <span class="no-match">No Match Found</span>
+            </h2>
+            <p class="text-center" style="text-decoration: underline;">
+                <a class="btn btn-link" href="{% url 'index' %}" role="button">Back To Home <i class="fa fa-long-arrow-right" aria-hidden="true"></i></a>
+            </p>
+            
+            {% endif %}
+        </div>
+    </div>
+</div>
+{% endblock content %}

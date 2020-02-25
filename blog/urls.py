@@ -26,6 +26,8 @@ urlpatterns = [
     path('', index, name='index'),
     path('blog/', blog, name='blog'),
     path('post/', post, name='post'),
+    path('article/<slug:slug>/', post, name='post-detail'),
+    path('search-result/', search_result, name='search-result'),
 ]
 
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
