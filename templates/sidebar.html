@@ -1,0 +1,60 @@
+<aside class="col-lg-4">
+    <!-- Widget [Search Bar Widget]-->
+    <div class="widget search">
+        <header>
+            <h3 class="h6">Search the blog</h3>
+        </header>
+        <form action="{% url 'search-result' %}" class="search-form">
+            <div class="form-group">
+                <input type="text" name="q" placeholder="What are you looking for?">
+                <button type="submit" class="submit"><i class="icon-search"></i></button>
+            </div>
+        </form>
+    </div>
+    <!-- Widget [Latest Posts Widget] -->
+    <div class="widget latest-posts">
+        <header>
+            <h3 class="h6">Latest Posts</h3>
+        </header>
+        <div class="blog-posts">
+            {% for recent_post in recent_post_list %}
+            <a href="{% url 'post-detail' recent_post.slug %}">
+                <div class="item d-flex align-items-center">
+                    <div class="image"><img src="{{ recent_post.thumbnail.url }}" alt="..." class="img-fluid"></div>
+                    <div class="title"><strong>{{ recent_post.title }}</strong>
+                        <div class="d-flex align-items-center">
+                            <div class="views"><i class="icon-eye"></i> 500</div>
+                            <div class="comments"><i class="icon-comment"></i>{{ recent_post.comment_count }}</div>
+                        </div>
+                    </div>
+                </div>
+            </a>
+            {% endfor %}
+        </div>
+    </div>
+    <!-- Widget [Categories Widget]-->
+    <div class="widget categories">
+        <header>
+            <h3 class="h6">Categories</h3>
+        </header>
+        {% for category in category_count %}
+        <div class="item d-flex justify-content-between">
+            <a href="#">{{ category.categories__title }}</a>
+            <span>
+                {{ category.categories__title__count }}
+            </span>
+        </div>
+        {% endfor %}
+    </div>
+    <!-- Widget [Tags Cloud Widget]-->
+    <div class="widget tags">
+        <header>
+            <h3 class="h6">Tags</h3>
+        </header>
+        <ul class="list-inline">
+            {% for tag in tags_list%}
+            <li class="list-inline-item tag">{{ tag.title }}</li>
+            {% endfor %}
+        </ul>
+    </div>
+</aside>

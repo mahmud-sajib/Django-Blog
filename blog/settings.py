@@ -37,8 +37,12 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'posts'
+    'posts',
+    'ckeditor',
+    'ckeditor_uploader',
 ]
+
+CKEDITOR_UPLOAD_PATH = "uploads/"
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -118,8 +122,16 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/2.2/howto/static-files/
 
+# Path to find static assets.
 STATIC_URL = '/static/'
-MEDIA_URL = '/img/'
+# Location of all (project & apps wide) static assets. 
+STATIC_ROOT  = os.path.join(BASE_DIR, 'staticfiles')
+# Location of project wide static assets.
 STATICFILES_DIRS = [os.path.join(BASE_DIR, 'static')]
 
+
+# URL that handles the media files served from MEDIA_ROOT. 
+MEDIA_URL = '/img/'
+# Location that holds user-uploaded files.
 MEDIA_ROOT = os.path.join(BASE_DIR, 'static/img')
+

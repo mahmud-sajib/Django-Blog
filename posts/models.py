@@ -1,7 +1,11 @@
 from django.db import models
-from django.contrib.auth.models import User
-from django.urls import reverse
 
+# Default User model.
+from django.contrib.auth.models import User
+
+# Ckeditor modules
+#from ckeditor.fields import RichTextField
+from ckeditor_uploader.fields import RichTextUploadingField
 
 # Create your models here.
 
@@ -27,7 +31,7 @@ class Tag(models.Model):
 class Post(models.Model):
     title = models.CharField(max_length=100)
     slug = models.SlugField(max_length=200, unique=True, null=True, blank=True)
-    overview = models.TextField()
+    overview = RichTextUploadingField(blank=True, null=True)
     timestamp = models.DateTimeField(auto_now_add=True)
     comment_count = models.IntegerField(default=0)
     author = models.ForeignKey(Author, on_delete=models.CASCADE)
@@ -38,8 +42,16 @@ class Post(models.Model):
 
     def __str__(self):
         return self.title
+
+class Comment(models.Model):
+    post = models.ForeignKey(Post, on_delete=models.CASCADE)
+    user = models.OneToOneField(User, on_delete=models.CASCADE)
+    content = models.TextField(max_length=200)
+    timestamp = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return self.user.username
+
     
-    # def get_absolute_url(self):
-    #     return reverse('post-detail', kwargs={
-    #         'slug':self.slug
-    #     })
+  
+

@@ -1,4 +1,4 @@
-from django.shortcuts import render
+from django.shortcuts import render, get_object_or_404
 from .models import *
 
 # Math module
@@ -59,7 +59,24 @@ def blog(request):
 
 # Blog single post detail view.
 def post(request, slug):
-    context = {}
+    # Display specific post by slug.
+    post = get_object_or_404(Post, slug=slug)
+    
+    # Display recent posts.
+    recent = Post.objects.order_by('-timestamp')[0:3]
+
+    # Display category title & count.
+    category_count = Post.objects.values('categories__title').annotate(Count('categories__title'))
+
+    # Dispkay tags.
+    tags = Tag.objects.all()
+
+    context = {
+        'post':post,
+        'recent_post_list':recent,
+        'category_count':category_count,
+        'tags_list':tags
+    }
     return render(request, 'post.html', context)
 
 # Search result page view.

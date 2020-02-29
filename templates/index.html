@@ -106,7 +106,7 @@
                 </div>
               </div><a href="#">
                 <h3 class="h4">{{ latest_post.title }}</h3></a>
-              <p class="text-muted text-justify">{{ latest_post.overview }}</p>
+              <p class="text-muted text-justify">{{ latest_post.overview|safe }}</p>
             </div>
           </div>
           {% endfor %}

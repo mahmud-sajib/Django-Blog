@@ -24,6 +24,7 @@
     <link rel="stylesheet" href="{% static 'css/custom.css' %}">
     <!-- Favicon-->
     <link rel="shortcut icon" href="{% static 'favicon.png' %}">
+    
     <!-- Tweaks for older IEs--><!--[if lt IE 9]>
         <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
         <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script><![endif]-->
@@ -60,9 +61,6 @@
               <li class="nav-item"><a href="{% url 'index' %}" class="nav-link">Home</a>
               </li>
               <li class="nav-item"><a href="{% url 'blog' %}" class="nav-link">Blog</a>
-              </li>
-              
-              <li class="nav-item"><a href="{% url 'post' %}" class="nav-link">Post</a>
               </li>
              
               <li class="nav-item"><a href="#" class="nav-link ">Contact</a>
