@@ -77,11 +77,20 @@
 </footer>
 <!-- JavaScript files-->
 <script src="{% static 'vendor/jquery/jquery.min.js' %}"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 <script src="{% static 'vendor/popper.js/umd/popper.min.js' %}"> </script>
 <script src="{% static 'vendor/bootstrap/js/bootstrap.min.js' %}"></script>
 <script src="{% static 'vendor/jquery.cookie/jquery.cookie.js' %}"> </script>
 <script src="{% static 'vendor/@fancyapps/fancybox/jquery.fancybox.min.js' %}"></script>
 <script src="{% static 'js/front.js' %}"></script>
+
+<script type="text/javascript">
+    $(document).ready(function(){
+        $('.reply-link').click(function(){
+            $(this).parent().next('.add-reply').fadeToggle()
+        });
+    });
+</script>
 </body>
 
 </html>

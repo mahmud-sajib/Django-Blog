@@ -1,7 +1,15 @@
-from django.shortcuts import render, get_object_or_404
+from django.shortcuts import render, redirect, get_object_or_404
+
+# Http modules.
+from django.http import HttpResponse, HttpResponseRedirect
+
+# Import models
 from .models import *
 
-# Math module
+# Model Forms.
+from .forms import CommentForm
+
+# Math module.
 from django.db.models import Count, Q
 
 # Pagination module.
@@ -61,21 +69,47 @@ def blog(request):
 def post(request, slug):
     # Display specific post by slug.
     post = get_object_or_404(Post, slug=slug)
+
+    # Display all comments of a specific post.
+    comments = Comment.objects.filter(post=post, reply=None).order_by('-id')
+
+    # Comment form.
+    form = CommentForm(request.POST or None)
+    if request.method == "POST":
+        if form.is_valid():
+            reply_id = request.POST.get('comment_id')
+            if reply_id:
+                qs = Comment.objects.get(id=reply_id)
+            else:
+                None
+
+            # passing User Id, Post Id & Reply of a Comments' Id to DB 
+            form.instance.user = request.user
+            form.instance.post = post
+            form.instance.reply = qs
+            form.save()
+            return HttpResponseRedirect(post.get_absolute_url())
+    else:
+        form = CommentForm()
     
-    # Display recent posts.
+    # Display recent posts (widget area).
     recent = Post.objects.order_by('-timestamp')[0:3]
 
-    # Display category title & count.
+    # Display category title & count (widget area).
     category_count = Post.objects.values('categories__title').annotate(Count('categories__title'))
 
-    # Dispkay tags.
+    # Display tags (widget area).
     tags = Tag.objects.all()
+
+    
 
     context = {
         'post':post,
+        'comments':comments,
         'recent_post_list':recent,
         'category_count':category_count,
-        'tags_list':tags
+        'tags_list':tags,
+        'form':form,
     }
     return render(request, 'post.html', context)
 

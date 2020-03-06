@@ -18,7 +18,7 @@
         </header>
         <div class="blog-posts">
             {% for recent_post in recent_post_list %}
-            <a href="{% url 'post-detail' recent_post.slug %}">
+            <a href="{{ recent_post.get_absolute_url }}">
                 <div class="item d-flex align-items-center">
                     <div class="image"><img src="{{ recent_post.thumbnail.url }}" alt="..." class="img-fluid"></div>
                     <div class="title"><strong>{{ recent_post.title }}</strong>

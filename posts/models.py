@@ -1,5 +1,7 @@
 from django.db import models
 
+from django.urls import reverse
+
 # Default User model.
 from django.contrib.auth.models import User
 
@@ -43,10 +45,16 @@ class Post(models.Model):
     def __str__(self):
         return self.title
 
+    def get_absolute_url(self):
+        return reverse('post-detail', kwargs={
+            'slug': self.slug
+        })
+
 class Comment(models.Model):
     post = models.ForeignKey(Post, on_delete=models.CASCADE)
-    user = models.OneToOneField(User, on_delete=models.CASCADE)
-    content = models.TextField(max_length=200)
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    reply = models.ForeignKey('self', on_delete=models.CASCADE, null=True, blank=True, related_name="replies")
+    comment = models.TextField(max_length=200)
     timestamp = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):

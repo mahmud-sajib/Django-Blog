@@ -42,3 +42,7 @@
     border-left: 5px solid #8FBEDC;
     font-family: fantasy;
 }
+
+.add-reply{
+    margin: 10px 0 10px 50px !important;
+}
