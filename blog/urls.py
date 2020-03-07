@@ -29,9 +29,10 @@ urlpatterns = [
     path('ckeditor/', include('ckeditor_uploader.urls')),
     path('', index, name='index'),
     path('blog/', blog, name='blog'),
-    # path('post/', post, name='post'),
     path('article/<slug:slug>/', post, name='post-detail'),
+    path('like/', post_like, name='post-like'),
     path('search-result/', search_result, name='search-result'),
+
 ]
 
 if settings.DEBUG:

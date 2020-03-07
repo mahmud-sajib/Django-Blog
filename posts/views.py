@@ -1,19 +1,16 @@
 from django.shortcuts import render, redirect, get_object_or_404
-
 # Http modules.
-from django.http import HttpResponse, HttpResponseRedirect
-
+from django.http import HttpResponse, HttpResponseRedirect, JsonResponse
 # Import models
 from .models import *
-
 # Model Forms.
 from .forms import CommentForm
-
 # Math module.
 from django.db.models import Count, Q
-
 # Pagination module.
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
+# String module
+from django.template.loader import render_to_string
 
 # Create your views here.
 
@@ -67,10 +64,10 @@ def blog(request):
 
 # Blog single post detail view.
 def post(request, slug):
-    # Display specific post by slug.
+    # Get specific post by slug.
     post = get_object_or_404(Post, slug=slug)
 
-    # Display all comments of a specific post.
+    # Get all comments of a specific post.
     comments = Comment.objects.filter(post=post, reply=None).order_by('-id')
 
     # Comment form.
@@ -78,10 +75,9 @@ def post(request, slug):
     if request.method == "POST":
         if form.is_valid():
             reply_id = request.POST.get('comment_id')
+            qs = None
             if reply_id:
                 qs = Comment.objects.get(id=reply_id)
-            else:
-                None
 
             # passing User Id, Post Id & Reply of a Comments' Id to DB 
             form.instance.user = request.user
@@ -92,6 +88,11 @@ def post(request, slug):
     else:
         form = CommentForm()
     
+    # Get all likes of a specific post.
+    is_liked = False
+    if post.likes.filter(id = request.user.id).exists():
+        is_liked = True
+    
     # Display recent posts (widget area).
     recent = Post.objects.order_by('-timestamp')[0:3]
 
@@ -101,17 +102,41 @@ def post(request, slug):
     # Display tags (widget area).
     tags = Tag.objects.all()
 
-    
-
     context = {
         'post':post,
         'comments':comments,
+        'is_liked':is_liked,
         'recent_post_list':recent,
         'category_count':category_count,
         'tags_list':tags,
         'form':form,
     }
     return render(request, 'post.html', context)
+
+# Post like view.
+def post_like(request):
+    post = get_object_or_404(Post, id=request.POST.get('id'))
+    is_liked = False
+    if post.likes.filter(id = request.user.author.id).exists():
+        post.likes.remove(request.user.author)
+        is_liked = False
+    else:
+        post.likes.add(request.user.author)
+        is_liked = True
+    
+    like_count = post.likes.filter(id = request.user.author.id).count()
+    
+    context = {
+        'post':post,
+        'is_liked':is_liked,
+        'like_count':like_count,
+    }
+
+    if request.is_ajax():
+        html = render_to_string('like-section.html', context, request=request)
+        return JsonResponse({'form':html,'like_count':like_count })
+    
+    #return HttpResponseRedirect(post.get_absolute_url())
 
 # Search result page view.
 def search_result(request):

@@ -41,6 +41,7 @@ class Post(models.Model):
     categories = models.ManyToManyField(Category)
     tags = models.ManyToManyField(Tag)
     featured = models.BooleanField(default=False)
+    likes = models.ManyToManyField(Author, blank=True, related_name='likes')
 
     def __str__(self):
         return self.title

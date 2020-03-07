@@ -76,18 +76,39 @@
     </div>
 </footer>
 <!-- JavaScript files-->
-<script src="{% static 'vendor/jquery/jquery.min.js' %}"></script>
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<script src="{% static 'vendor/jquery/jquery.min.js' %}"></script>  
 <script src="{% static 'vendor/popper.js/umd/popper.min.js' %}"> </script>
 <script src="{% static 'vendor/bootstrap/js/bootstrap.min.js' %}"></script>
-<script src="{% static 'vendor/jquery.cookie/jquery.cookie.js' %}"> </script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<!-- <script src="{% static 'vendor/jquery.cookie/jquery.cookie.js' %}"> </script> -->
 <script src="{% static 'vendor/@fancyapps/fancybox/jquery.fancybox.min.js' %}"></script>
 <script src="{% static 'js/front.js' %}"></script>
 
 <script type="text/javascript">
     $(document).ready(function(){
+
+        // reply form toggle
         $('.reply-link').click(function(){
             $(this).parent().next('.add-reply').fadeToggle()
+        });
+
+        // ajaxifying like button
+        $(document).on('click', '#vote', function(event){
+          event.preventDefault();
+          var pk = $(this).attr('value');
+          $.ajax({
+            type: 'POST',
+            url: '{% url "post-like" %}',
+            data: {'id':pk, 'csrfmiddlewaretoken': '{{ csrf_token }}'},
+            dataType: 'json',
+            success: function(response){
+              $('#like-section').html(response['form']);
+              $('#like-count').html(response['like_count']);
+            },
+            error: function(rs, e){
+              console.log(rs.responseText);
+            },
+          });
         });
     });
 </script>

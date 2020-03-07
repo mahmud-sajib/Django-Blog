@@ -6,9 +6,12 @@
     <!-- Latest Posts -->
     <main class="post blog-post col-lg-8">
       <div class="container">
+        <!-- post container -->
         <div class="post-single">
+          <!-- post thumbnail -->
           <div class="post-thumbnail"><img src="{{ post.thumbnail.url }}" alt="..." class="img-fluid"></div>
           <div class="post-details">
+            <!-- post category -->
             <div class="post-meta d-flex justify-content-between">
               {% for cat in post.categories.all %}
               <div class="category">
@@ -17,6 +20,7 @@
               {% endfor %}
             </div>
             <h1>{{ post.title }}<a href="#"><i class="fa fa-bookmark-o"></i></a></h1>
+            <!-- post meta(title author like comment) -->
             <div class="post-footer d-flex align-items-center flex-column flex-sm-row"><a href="#"
                 class="author d-flex align-items-center flex-wrap">
                 <div class="avatar"><img src="{{ post.author.profile_pic.url }}" alt="..." class="img-fluid"></div>
@@ -24,18 +28,25 @@
               </a>
               <div class="d-flex align-items-center flex-wrap">
                 <div class="date"><i class="icon-clock"></i> {{ post.timestamp | timesince }} ago</div>
-                <div class="views"><i class="icon-eye"></i> 500</div>
+                <div id="like-count" class="views"><i class="fa fa-heart" aria-hidden="true"></i> {{ post.likes.count }}</div>
                 <div class="comments meta-last"><i class="icon-comment"></i>12</div>
               </div>
             </div>
+            <!-- post body -->
             <div class="post-body">
               {{ post.overview | safe }}
             </div>
+            <!-- vote section -->
+            <div id="like-section">
+              {% include 'like-section.html' %}
+            </div>
+            <!-- post tags -->
             <div class="post-tags">
               {% for tag in post.tags.all %}
               <li class="list-inline-item tag"># {{ tag }}</li>
               {% endfor %}
             </div>
+            <!-- previous/next post link -->
             <div class="posts-nav d-flex justify-content-between align-items-stretch flex-column flex-md-row">
               {% if post.get_next_by_timestamp %}
               <a href="{% url 'post-detail' post.get_next_by_timestamp.slug %}" class="prev-post text-left d-flex align-items-center">
@@ -55,98 +66,102 @@
               </a>
               {% endif %}
             </div>
-            
+            <!-- comment section -->
             <div class="post-comments">
               <header>
-                <h3 class="h6">Post Comments<span class="no-of-comments">({{ comments.count }})</span></h3>
+                  <h3 class="h6">Post Comments<span class="no-of-comments">({{ comments.count }})</span></h3>
               </header>
               {% for comment in comments %}
               <div class="comment">
-                <div class="comment-header d-flex justify-content-between">
-                  <div class="user d-flex align-items-center">
-                    <div class="image">
-                      {% if comment.user.author %}
-                        {% if comment.user.author.profile_pic %}
-                        <img src="{{ comment.user.author.profile_pic.url }}" alt="..." class="img-fluid rounded-circle">
-                        {% else %}
-                        <img src="{% static 'img/user.svg' %}" alt="..." class="img-fluid rounded-circle">
-                        {% endif %}
-                      {% endif %}
-                    </div>
-                    <div class="title"><strong>{{ comment.user }}</strong><span class="date">{{ comment.timestamp }}</span></div>
-                  </div>
-                </div>
-                <div class="comment-body">
-                  <p>{{ comment.comment }}</p>
-                  <button type="button" class="reply-link btn btn-link">Reply</button>
-                </div>
-                {% if request.user.is_authenticated %}
-                <div class="add-reply" style="display:none;">
-                  {% for reply in comment.replies.all %}
+                  <!-- post comment -->
                   <div class="comment-header d-flex justify-content-between">
-                    <div class="user d-flex align-items-center">
-                      <div class="image">
-                        {% if reply.user.author %}
-                          {% if reply.user.author.profile_pic %}
-                          <img src="{{ reply.user.author.profile_pic.url }}" alt="..." class="img-fluid rounded-circle">
-                          {% else %}
-                          <img src="{% static 'img/user.svg' %}" alt="..." class="img-fluid rounded-circle">
-                          {% endif %}
-                        {% endif %}
+                      <div class="user d-flex align-items-center">
+                          <div class="image">
+                              {% if comment.user.author %}
+                                  {% if comment.user.author.profile_pic %}
+                                  <img src="{{ comment.user.author.profile_pic.url }}" alt="..." class="img-fluid rounded-circle">
+                                  {% else %}
+                                  <img src="{% static 'img/user.svg' %}" alt="..." class="img-fluid rounded-circle">
+                                  {% endif %}
+                              {% endif %}
+                          </div>
+                          <div class="title"><strong>{{ comment.user }}</strong><span class="date">{{ comment.timestamp }}</span>
+                          </div>
                       </div>
-                      <div class="title"><strong>{{ reply.user }}</strong><span class="date">{{ reply.timestamp }}</span></div>
-                    </div>
                   </div>
                   <div class="comment-body">
-                    <p>{{ reply.comment }}</p>
+                      <p>{{ comment.comment }}</p>
+                      <button type="button" class="reply-link btn btn-link">Reply</button>
                   </div>
-                  {% endfor %}
-                  <form action="" method="POST" class="commenting-form">
-                    <div class="row">
-                      <div class="form-group col-md-12">
-                        {% csrf_token %}
-                        <!-- attach each reply with a specific comment -->
-                        <input type="hidden" name="comment_id" value="{{ comment.id }}">
-                        {{ form }}
+                  <!-- post comment reply -->
+                  {% if request.user.is_authenticated %}
+                  <div class="add-reply" style="display:none;">
+                      {% for reply in comment.replies.all %}
+                      <div class="comment-header d-flex justify-content-between">
+                          <div class="user d-flex align-items-center">
+                              <div class="image">
+                                  {% if reply.user.author %}
+                                  {% if reply.user.author.profile_pic %}
+                                  <img src="{{ reply.user.author.profile_pic.url }}" alt="..." class="img-fluid rounded-circle">
+                                  {% else %}
+                                  <img src="{% static 'img/user.svg' %}" alt="..." class="img-fluid rounded-circle">
+                                  {% endif %}
+                                  {% endif %}
+                              </div>
+                              <div class="title"><strong>{{ reply.user }}</strong><span class="date">{{ reply.timestamp }}</span>
+                              </div>
+                          </div>
                       </div>
-                      <div class="form-group col-md-12">
-                        <button type="submit" class="btn btn-secondary">Submit Reply</button>
+                      <div class="comment-body">
+                          <p>{{ reply.comment }}</p>
                       </div>
-                    </div>
-                  </form>
-                </div>
-                {% endif %}
+                      {% endfor %}
+                      <!-- comment reply form -->
+                      <form action="" method="POST" class="commenting-form">
+                          <div class="row">
+                              <div class="form-group col-md-12">
+                                  {% csrf_token %}
+                                  <!-- attach each reply with a specific comment -->
+                                  <input type="hidden" name="comment_id" value="{{ comment.id }}">
+                                  {{ form }}
+                              </div>
+                              <div class="form-group col-md-12">
+                                  <button type="submit" class="btn btn-secondary">Submit Reply</button>
+                              </div>
+                          </div>
+                      </form>
+                  </div>
+                  {% endif %}
               </div>
-              {% endfor %}  
-            </div>
-            
-            {% if request.user.is_authenticated %}
-            <div class="add-comment">
+              {% endfor %}
+          </div>
+          <!-- comment form -->
+          {% if request.user.is_authenticated %}
+          <div class="add-comment">
               <header>
-                <h3 class="h6">Leave a comment</h3>
+                  <h3 class="h6">Leave a comment</h3>
               </header>
               <form action="" method="POST" class="commenting-form">
-                <div class="row">
-                  <div class="form-group col-md-12">
-                    {% csrf_token %}
-                    {{ form }}
+                  <div class="row">
+                      <div class="form-group col-md-12">
+                          {% csrf_token %}
+                          {{ form }}
+                      </div>
+                      <div class="form-group col-md-12">
+                          <button type="submit" class="btn btn-secondary">Submit Comment</button>
+                      </div>
                   </div>
-                  <div class="form-group col-md-12">
-                    <button type="submit" class="btn btn-secondary">Submit Comment</button>
-                  </div>
-                </div>
               </form>
-
-              
-
-            </div>
-            {% endif %}
-
+          </div>
+          {% endif %}
+            <!-- / comment section -->
           </div>
         </div>
       </div>
     </main>
+    <!-- blog sidebar -->
     {% include 'sidebar.html' with recent_post_list=recent_post_list category_count=category_count tags_list=tags_list %}
+    <!-- / blog sidebar -->
   </div>
 </div>
 {% endblock content %}

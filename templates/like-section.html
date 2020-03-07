@@ -1,0 +1,15 @@
+<!-- post like/dislike  -->
+{% if request.user.is_authenticated %}
+<div class="post-like">
+  <form action="{% url 'post-like' %}" method="POST">
+    {% csrf_token %}
+    {% if is_liked %}
+      <button type="submit" id="vote" name="post_id" value="{{ post.id }}" class="btn btn-danger">Dislike
+      </button>
+    {% else %}
+      <button type="submit" id="vote" name="post_id" value="{{ post.id }}" class="btn btn-primary">Like
+      </button>
+    {% endif %}
+  </form>
+</div>
+{% endif %}
