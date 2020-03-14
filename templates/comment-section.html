@@ -1,1 +1,89 @@
 <!-- {% load static %} -->
+
+<div class="post-comments">
+    <header>
+        <h3 class="h6">Post Comments<span class="no-of-comments">({{ comments.count }})</span></h3>
+    </header>
+    {% for comment in comments %}
+    <div class="comment">
+        <!-- post comment -->
+        <div class="comment-header d-flex justify-content-between">
+            <div class="user d-flex align-items-center">
+                <div class="image">
+                    {% if comment.user.author %}
+                    {% if comment.user.author.profile_pic %}
+                    <img src="{{ comment.user.author.profile_pic.url }}" alt="..." class="img-fluid rounded-circle">
+                    {% else %}
+                    <img src="{% static 'img/user.svg' %}" alt="..." class="img-fluid rounded-circle">
+                    {% endif %}
+                    {% endif %}
+                </div>
+                <div class="title"><strong>{{ comment.user }}</strong><span class="date">{{ comment.timestamp }}</span>
+                </div>
+            </div>
+        </div>
+        <div class="comment-body">
+            <p>{{ comment.comment }}</p>
+            <button type="button" class="reply-link btn btn-link">Reply</button>
+        </div>
+        <!-- post comment reply -->
+        {% if request.user.is_authenticated %}
+        <div class="add-reply" style="display:none;">
+            {% for reply in comment.replies.all %}
+            <div class="comment-header d-flex justify-content-between">
+                <div class="user d-flex align-items-center">
+                    <div class="image">
+                        {% if reply.user.author %}
+                        {% if reply.user.author.profile_pic %}
+                        <img src="{{ reply.user.author.profile_pic.url }}" alt="..." class="img-fluid rounded-circle">
+                        {% else %}
+                        <img src="{% static 'img/user.svg' %}" alt="..." class="img-fluid rounded-circle">
+                        {% endif %}
+                        {% endif %}
+                    </div>
+                    <div class="title"><strong>{{ reply.user }}</strong><span class="date">{{ reply.timestamp }}</span>
+                    </div>
+                </div>
+            </div>
+            <div class="comment-body">
+                <p>{{ reply.comment }}</p>
+            </div>
+            {% endfor %}
+            <!-- comment reply form -->
+            <form action="" method="POST" class="reply-form">
+                <div class="row">
+                    <div class="form-group col-md-12">
+                        {% csrf_token %}
+                        <!-- attach each reply with a specific comment -->
+                        <input type="hidden" name="comment_id" value="{{ comment.id }}">
+                        {{ form }}
+                    </div>
+                    <div class="form-group col-md-12">
+                        <input type="submit" value="Submit">
+                    </div>
+                </div>
+            </form>
+        </div>
+        {% endif %}
+    </div>
+    {% endfor %}
+</div>
+<!-- comment form -->
+{% if request.user.is_authenticated %}
+<div class="add-comment">
+    <header>
+        <h3 class="h6">Leave a comment</h3>
+    </header>
+    <form action="." method="POST" class="comment-form">
+        <div class="row">
+            <div class="form-group col-md-12">
+                {% csrf_token %}
+                {{ form }}
+            </div>
+            <div class="form-group col-md-12">
+                <input type="submit" value="Submit">
+            </div>
+        </div>
+    </form>
+</div>
+{% endif %}

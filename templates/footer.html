@@ -39,19 +39,22 @@
             <div class="col-md-4">
                 <div class="latest-posts"><a href="#">
                         <div class="post d-flex align-items-center">
-                            <div class="image"><img src="{% static 'img/small-thumbnail-1.jpg' %}" alt="..." class="img-fluid"></div>
+                            <div class="image"><img src="{% static 'img/small-thumbnail-1.jpg' %}" alt="..."
+                                    class="img-fluid"></div>
                             <div class="title"><strong>Hotels for all budgets</strong><span
                                     class="date last-meta">October 26, 2016</span></div>
                         </div>
                     </a><a href="#">
                         <div class="post d-flex align-items-center">
-                            <div class="image"><img src="{% static 'img/small-thumbnail-2.jpg' %}" alt="..." class="img-fluid"></div>
+                            <div class="image"><img src="{% static 'img/small-thumbnail-2.jpg' %}" alt="..."
+                                    class="img-fluid"></div>
                             <div class="title"><strong>Great street atrs in London</strong><span
                                     class="date last-meta">October 26, 2016</span></div>
                         </div>
                     </a><a href="#">
                         <div class="post d-flex align-items-center">
-                            <div class="image"><img src="{% static 'img/small-thumbnail-3.jpg' %}" alt="..." class="img-fluid"></div>
+                            <div class="image"><img src="{% static 'img/small-thumbnail-3.jpg' %}" alt="..."
+                                    class="img-fluid"></div>
                             <div class="title"><strong>Best coffee shops in Sydney</strong><span
                                     class="date last-meta">October 26, 2016</span></div>
                         </div>
@@ -76,7 +79,7 @@
     </div>
 </footer>
 <!-- JavaScript files-->
-<script src="{% static 'vendor/jquery/jquery.min.js' %}"></script>  
+<script src="{% static 'vendor/jquery/jquery.min.js' %}"></script>
 <script src="{% static 'vendor/popper.js/umd/popper.min.js' %}"> </script>
 <script src="{% static 'vendor/bootstrap/js/bootstrap.min.js' %}"></script>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
@@ -85,31 +88,79 @@
 <script src="{% static 'js/front.js' %}"></script>
 
 <script type="text/javascript">
-    $(document).ready(function(){
+    $(document).ready(function () {
 
         // reply form toggle
-        $('.reply-link').click(function(){
+        $('.reply-link').click(function () {
             $(this).parent().next('.add-reply').fadeToggle()
         });
 
         // ajaxifying like button
-        $(document).on('click', '#vote', function(event){
-          event.preventDefault();
-          var pk = $(this).attr('value');
-          $.ajax({
-            type: 'POST',
-            url: '{% url "post-like" %}',
-            data: {'id':pk, 'csrfmiddlewaretoken': '{{ csrf_token }}'},
-            dataType: 'json',
-            success: function(response){
-              $('#like-section').html(response['form']);
-              $('#like-count').html(response['like_count']);
-            },
-            error: function(rs, e){
-              console.log(rs.responseText);
-            },
-          });
+        $(document).on('click', '#vote', function (event) {
+            event.preventDefault();
+            var pk = $(this).attr('value');
+            $.ajax({
+                type: 'POST',
+                url: '{% url "post-like" %}',
+                data: {
+                    'id': pk,
+                    'csrfmiddlewaretoken': '{{ csrf_token }}'
+                },
+                dataType: 'json',
+                success: function (response) {
+                    $('#like-section').html(response['form']);
+                    $('#like-count').html(response['like_count']);
+                },
+                error: function (rs, e) {
+                    console.log(rs.responseText);
+                },
+            });
         });
+
+        // ajaxifying comment
+        $(document).on('submit', '.comment-form', function (event) {
+            event.preventDefault();
+            $.ajax({
+                type: 'POST',
+                url: $(this).attr('action'),
+                data: $(this).serialize(),
+                dataType: 'json',
+                success: function (response) {
+                    $('.comment-section').html(response['form']);
+                    $('textarea').val('');
+                    $('.reply-link').click(function () {
+                        $(this).parent().next('.add-reply').fadeToggle();
+                        $('textarea').val('');
+                    });
+                },
+                error: function (rs, e) {
+                    console.log(rs.responseText);
+                },
+            });
+        });
+
+        // ajaxifying reply
+        $(document).on('submit', '.reply-form', function (event) {
+            event.preventDefault();
+            $.ajax({
+                type: 'POST',
+                url: $(this).attr('action'),
+                data: $(this).serialize(),
+                dataType: 'json',
+                success: function (response) {
+                    $('.comment-section').html(response['form']);
+                    $('textarea').val('');
+                    $('.reply-link').click(function () {
+                        $(this).parent().next('.add-reply').fadeToggle();
+                        $('textarea').val('');
+                    });
+                },
+                error: function (rs, e) {
+                    console.log(rs.responseText);
+                },
+            });
+        });
+
     });
 </script>
 </body>

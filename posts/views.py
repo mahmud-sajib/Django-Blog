@@ -84,7 +84,7 @@ def post(request, slug):
             form.instance.post = post
             form.instance.reply = qs
             form.save()
-            return HttpResponseRedirect(post.get_absolute_url())
+            # return HttpResponseRedirect(post.get_absolute_url())
     else:
         form = CommentForm()
     
@@ -111,6 +111,11 @@ def post(request, slug):
         'tags_list':tags,
         'form':form,
     }
+
+    if request.is_ajax():
+        html = render_to_string('comment-section.html', context, request=request)
+        return JsonResponse({'form':html})
+
     return render(request, 'post.html', context)
 
 # Post like view.
