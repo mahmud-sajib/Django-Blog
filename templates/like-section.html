@@ -4,11 +4,12 @@
   <form action="{% url 'post-like' %}" method="POST">
     {% csrf_token %}
     {% if is_liked %}
-      <button type="submit" id="vote" name="post_id" value="{{ post.id }}" class="btn btn-danger">Dislike
-      </button>
+      <button type="submit" id="vote" name="post_id" value="{{ post.id }}" class="btn btn-danger">
+        <i class="fa fa-thumbs-o-down" aria-hidden="true"></i> 
+      </button> <span class="vote-tag">Not Recommended</span>    
     {% else %}
-      <button type="submit" id="vote" name="post_id" value="{{ post.id }}" class="btn btn-primary">Like
-      </button>
+      <button type="submit" id="vote" name="post_id" value="{{ post.id }}" class="btn btn-info"><i class="fa fa-thumbs-o-up" aria-hidden="true"></i> 
+      </button> <span class="vote-tag">Recommended</span> 
     {% endif %}
   </form>
 </div>

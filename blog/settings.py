@@ -40,6 +40,7 @@ INSTALLED_APPS = [
     'posts',
     'ckeditor',
     'ckeditor_uploader',
+    'authentication',
 ]
 
 CKEDITOR_UPLOAD_PATH = "uploads/"
@@ -67,6 +68,7 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
+                'posts.context_processors.footer_post',
             ],
         },
     },
@@ -134,4 +136,8 @@ STATICFILES_DIRS = [os.path.join(BASE_DIR, 'static')]
 MEDIA_URL = '/img/'
 # Location that holds user-uploaded files.
 MEDIA_ROOT = os.path.join(BASE_DIR, 'static/img')
+
+# Authentication urls
+LOGIN_REDIRECT_URL = 'index'
+LOGOUT_REDIRECT_URL = 'index'
 

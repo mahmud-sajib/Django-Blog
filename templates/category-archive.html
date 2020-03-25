@@ -1,0 +1,48 @@
+{% extends "base.html" %}
+{% load static %}
+{% block content %}
+<div class="container">
+    <div class="row">
+        <div class="col-lg-10 offset-lg-1">
+            <header>
+                <h2 class="text-center mt">Category : {{ category.title }}</h2>
+            </header>
+        </div>
+        <!-- Latest Posts -->
+        <main class="posts-listing col-lg-10 offset-lg-1">
+            <div class="container">
+                <div class="row">
+                    {% for posts in post_by_category %}
+                    <!-- post -->
+                    <div class="post col-xl-6">
+                        <div class="post-thumbnail"><a href="{% url 'post-detail' posts.slug %}"><img
+                                    src=" {{ posts.thumbnail.url }}" alt="..." class="img-fluid"></a></div>
+                        <div class="post-details">
+                            <div class="post-meta d-flex justify-content-between">
+                                <div class="date meta-last">{{ posts.timestamp|date:"d M" }} |
+                                    {{ posts.timestamp|date:"Y" }}</div>
+
+                            </div><a href="{% url 'post-detail' posts.slug %}">
+                                <h3 class="h4">{{ posts.title }}</h3>
+                            </a>
+                            <p class="text-muted">{{ posts.overview |safe|truncatewords:30 }}</p>
+                            <footer class="post-footer d-flex align-items-center">
+                                <div class="author d-flex align-items-center flex-wrap">
+                                    <div class="avatar"><img src="{{ posts.author.profile_pic.url }}" alt="..."
+                                            class="img-fluid"></div>
+                                    <div class="title"><span>{{ posts.author }}</span></div>
+                                </div>
+                                <div class="date"><i class="icon-clock"></i> {{ posts.timestamp|timesince }} ago</div>
+                                <div class="comments meta-last"><i class="icon-comment"></i>{{ posts.comment_count }}
+                                </div>
+                            </footer>
+                        </div>
+                    </div>
+                    {% endfor %}
+                </div>
+
+            </div>
+        </main>
+    </div>
+</div>
+{% endblock content %}

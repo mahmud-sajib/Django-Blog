@@ -30,10 +30,16 @@ urlpatterns = [
     path('', index, name='index'),
     path('blog/', blog, name='blog'),
     path('article/<slug:slug>/', post, name='post-detail'),
+    path('category/<slug:slug>/', category_detail, name='category-detail'),
     path('like/', post_like, name='post-like'),
     path('search-result/', search_result, name='search-result'),
+    path('', include('authentication.urls')),
+]
 
+urlpatterns += [
+    path('accounts/', include('django.contrib.auth.urls')),
 ]
 
 if settings.DEBUG:
     urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+

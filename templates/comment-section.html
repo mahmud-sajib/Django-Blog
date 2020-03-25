@@ -2,7 +2,7 @@
 
 <div class="post-comments">
     <header>
-        <h3 class="h6">Post Comments<span class="no-of-comments">({{ comments.count }})</span></h3>
+        <h4 class="h6">Post Comments<span class="no-of-comments">({{ comments.count }})</span></h4>
     </header>
     {% for comment in comments %}
     <div class="comment">
@@ -72,7 +72,7 @@
 {% if request.user.is_authenticated %}
 <div class="add-comment">
     <header>
-        <h3 class="h6">Leave a comment</h3>
+        <h4 class="h6">Leave a comment</h4>
     </header>
     <form action="." method="POST" class="comment-form">
         <div class="row">

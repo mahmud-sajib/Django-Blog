@@ -15,20 +15,23 @@
             <div class="post-details">
               <div class="post-meta d-flex justify-content-between">
                 <div class="date meta-last">{{ posts.timestamp|date:"d M" }} | {{ posts.timestamp|date:"Y" }}</div>
-                {% for cat in posts.categories.all %}
+                
                 <div class="category">
-                  <a href="#">{{ cat }}</a>
+                  {% for cat in posts.categories.all %}
+                  <a href="{% url 'category-detail' cat.slug %}">{{ cat }} </a>
+                  {% endfor %}
                 </div>
-                {% endfor %}
+                
               </div><a href="{% url 'post-detail' posts.slug %}">
                 <h3 class="h4">{{ posts.title }}</h3>
               </a>
-              <p class="text-muted">{{ posts.overview }}</p>
-              <footer class="post-footer d-flex align-items-center"><a href="#"
+              <p class="text-muted">{{ posts.overview |safe|truncatewords:30 }}</p>
+              <footer class="post-footer d-flex align-items-center">
+                <div
                   class="author d-flex align-items-center flex-wrap">
                   <div class="avatar"><img src="{{ posts.author.profile_pic.url }}" alt="..." class="img-fluid"></div>
                   <div class="title"><span>{{ posts.author }}</span></div>
-                </a>
+              </div>
                 <div class="date"><i class="icon-clock"></i> {{ posts.timestamp|timesince }} ago</div>
                 <div class="comments meta-last"><i class="icon-comment"></i>{{ posts.comment_count }}</div>
               </footer>
@@ -51,7 +54,7 @@
         </nav>
       </div>
     </main>
-    {% include 'sidebar.html' with recent_post_list=recent_post_list category_count=category_count tags_list=tags_list %}
+    {% include 'sidebar.html' with recent_post_list=recent_post_list category_count=category_count  tags_list=tags_list %}
   </div>
 </div>
 {% endblock content %}

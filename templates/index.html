@@ -6,8 +6,8 @@
     <section style="background: url({% static 'img/desert_dark.jpg' %}); background-size: cover; background-position: center center" class="hero">
       <div class="container">
         <div class="row">
-          <div class="col-lg-7">
-            <h1>Take only memories, leave only footprints.</h1><a href="{% url 'blog' %}" class="hero-link">Discover More</a>
+          <div class="col-lg-8">
+            <h1>Take only memories. <br> Leave only footprints.</h1><a href="{% url 'blog' %}" class="hero-link">Discover More</a>
           </div>
         </div><a href=".intro" class="continue link-scroll"><i class="fa fa-long-arrow-down"></i> Scroll Down</a>
       </div>
@@ -17,7 +17,7 @@
       <div class="container">
         <div class="row">
           <div class="col-lg-8">
-            <h2 class="h3">Hello, you hear me?</h2>
+            <h2>About Us</h2>
             <p class="text-big">The Backpack is an award-winning solo travel blog featuring travel tips, packing guides, videos and photography from around the world.</p>
           </div>
         </div>
@@ -26,9 +26,8 @@
     <section class="featured-posts no-padding-top">
       <div class="container">
         
-        <!-- Post-->
+        <!-- Featured Posts-->
         {% for feat_post in featured_post_list %}
-
         <div class="row d-flex align-items-stretch">
 
           {% if not forloop.first and not forloop.last %}
@@ -40,19 +39,20 @@
               <div class="content">
                 <header class="post-header">
                   <div class="category">
-                    <!-- many-to-many -->
                     {% for cat in feat_post.categories.all %}
-                    <a href="#">{{ cat }}</a>
+                    <a href="{% url 'category-detail' cat.slug %}">{{ cat }}</a>
                     {% endfor %}
                   </div>
-                  <a href="#">
+                  <a href="{{ feat_post.get_absolute_url }}">
                     <h2 class="h4">{{ feat_post.title }}</h2>
                   </a>
                 </header>
-                <p class="text-justify">{{ feat_post.overview }}</p>
-                <footer class="post-footer d-flex align-items-center"><a href="#" class="author d-flex align-items-center flex-wrap">
+                <p class="text-justify">{{ feat_post.overview | safe | truncatewords:40 }}</p>
+                <footer class="post-footer d-flex align-items-center">
+                  <div class="author d-flex align-items-center flex-wrap">
                     <div class="avatar"><img src="{{ feat_post.author.profile_pic.url }}" alt="..." class="img-fluid"></div>
-                    <div class="title"><span>{{ feat_post.author }}</span></div></a>
+                    <div class="title"><span>{{ feat_post.author }}</span></div>
+                  </div>
                   <div class="date"><i class="icon-clock"></i> {{ feat_post.timestamp|timesince }} ago</div>
                   <div class="comments"><i class="icon-comment"></i>{{ feat_post.comment_count }}</div>
                 </footer>
@@ -65,7 +65,6 @@
           {% endif %}
 
         </div>
-
         {% endfor %}
 
         
@@ -78,8 +77,8 @@
     <section style="background: url({% static 'img/section-header.jpg' %}); background-size: cover; background-position: center top" class="divider">
       <div class="container">
         <div class="row">
-          <div class="col-md-7">
-            <h2>The World is a book and those who do not travel read only a page.</h2><a href="#" class="hero-link">View More</a>
+          <div class="col-md-12">
+            <h2 class="text-center travel-quote">The World is a book and those who do not travel read only a page.</h2>
           </div>
         </div>
       </div>
@@ -95,18 +94,18 @@
           {% for latest_post in latest_post_list %}
 
           <div class="post col-md-4">
-            <div class="post-thumbnail"><a href="#"><img src="{{ latest_post.thumbnail.url }}" alt="..." class="img-fluid"></a></div>
+            <div class="post-thumbnail"><img src="{{ latest_post.thumbnail.url }}" alt="..." class="img-fluid"></div>
             <div class="post-details">
               <div class="post-meta d-flex justify-content-between">
                 <div class="date">{{ latest_post.timestamp }}</div>
                 <div class="category">
                   {% for cat in latest_post.categories.all %}
-                    <a href="#">{{ cat }}</a>
+                    <a href="{% url 'category-detail' cat.slug %}">{{ cat }}</a>
                   {% endfor %}
                 </div>
-              </div><a href="#">
+              </div><a href="{{ latest_post.get_absolute_url }}">
                 <h3 class="h4">{{ latest_post.title }}</h3></a>
-              <p class="text-muted text-justify">{{ latest_post.overview|safe }}</p>
+              <p class="text-muted text-justify">{{ latest_post.overview | safe | truncatewords:30 }}</p>
             </div>
           </div>
           {% endfor %}

@@ -44,13 +44,13 @@ def blog(request):
     except EmptyPage:
         paginated_queryset = paginator.page(paginator.num_pages)
     
-    # Display recent posts.
+    # Display recent posts (widget area).
     recent = Post.objects.order_by('-timestamp')[0:3]
 
-    # Display category title & count.
-    category_count = Post.objects.values('categories__title').annotate(Count('categories__title'))
+    # Display category title, count & link to category detail (widget area).
+    category_count = Post.objects.values('categories__title', 'categories__slug' ).annotate(Count('categories__title'))
 
-    # Dispkay tags.
+    # Dispkay tags (widget area).
     tags = Tag.objects.all()
     
     context = {
@@ -58,7 +58,7 @@ def blog(request):
         'page_num':page_num,
         'recent_post_list':recent,
         'category_count':category_count,
-        'tags_list':tags
+        'tags_list':tags,
     }
     return render(request, 'blog.html', context)
 
@@ -95,9 +95,9 @@ def post(request, slug):
     
     # Display recent posts (widget area).
     recent = Post.objects.order_by('-timestamp')[0:3]
-
-    # Display category title & count (widget area).
-    category_count = Post.objects.values('categories__title').annotate(Count('categories__title'))
+    
+    # Display category title, count & link to category detail (widget area).
+    category_count = Post.objects.values('categories__title', 'categories__slug' ).annotate(Count('categories__title'))
 
     # Display tags (widget area).
     tags = Tag.objects.all()
@@ -117,6 +117,7 @@ def post(request, slug):
         return JsonResponse({'form':html})
 
     return render(request, 'post.html', context)
+
 
 # Post like view.
 def post_like(request):
@@ -160,3 +161,23 @@ def search_result(request):
     }
     
     return render(request, 'search-result.html', context)
+
+# Category detail page
+def category_detail(request, slug):
+    category = get_object_or_404(Category, slug=slug)
+    post_by_category = Post.objects.filter(categories=category)
+
+    context = {
+        'category':category,
+        'post_by_category':post_by_category,
+    }
+
+    return render(request, 'category-archive.html', context)
+
+
+
+
+
+
+
+    

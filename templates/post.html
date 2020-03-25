@@ -13,22 +13,24 @@
           <div class="post-details">
             <!-- post category -->
             <div class="post-meta d-flex justify-content-between">
-              {% for cat in post.categories.all %}
+              
               <div class="category">
-                <a href="#">{{ cat }}</a>
+                {% for cat in post.categories.all %}
+                <a href="{% url 'category-detail' cat.slug %}">{{ cat }}</a>
+                {% endfor %}
               </div>
-              {% endfor %}
+              
             </div>
-            <h1>{{ post.title }}<a href="#"><i class="fa fa-bookmark-o"></i></a></h1>
+            <h1>{{ post.title }}</h1>
             <!-- post meta(title author like comment) -->
-            <div class="post-footer d-flex align-items-center flex-column flex-sm-row"><a href="#"
+            <div class="post-footer d-flex align-items-center flex-column flex-sm-row"><div
                 class="author d-flex align-items-center flex-wrap">
                 <div class="avatar"><img src="{{ post.author.profile_pic.url }}" alt="..." class="img-fluid"></div>
                 <div class="title"><span>{{ post.author }}</span></div>
-              </a>
+            </div>
               <div class="d-flex align-items-center flex-wrap">
                 <div class="date"><i class="icon-clock"></i> {{ post.timestamp | timesince }} ago</div>
-                <div id="like-count" class="views"><i class="fa fa-heart" aria-hidden="true"></i> {{ post.likes.count }}
+                <div id="like-count" class="views"> {{ post.likes.count }}
                 </div>
                 <div class="comments meta-last"><i class="icon-comment"></i>12</div>
               </div>
