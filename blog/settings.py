@@ -41,7 +41,9 @@ INSTALLED_APPS = [
     'ckeditor',
     'ckeditor_uploader',
     'authentication',
+    'crispy_forms',
 ]
+CRISPY_TEMPLATE_PACK = 'bootstrap4'
 
 CKEDITOR_UPLOAD_PATH = "uploads/"
 
@@ -140,4 +142,5 @@ MEDIA_ROOT = os.path.join(BASE_DIR, 'static/img')
 # Authentication urls
 LOGIN_REDIRECT_URL = 'index'
 LOGOUT_REDIRECT_URL = 'index'
+EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 

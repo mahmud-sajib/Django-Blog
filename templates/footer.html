@@ -41,7 +41,7 @@
 
                     <a href="{{ post.get_absolute_url }}">
                         <div class="post d-flex align-items-center">
-                            <div class="image"><img src="{{ post.author.profile_pic.url }}" alt="..." class="img-fluid">
+                            <div class="image"><img src="{{ post.thumbnail.url }}" alt="..." class="img-fluid">
                             </div>
                             <div class="title"><strong>{{ post.title }}</strong><span
                                     class="date last-meta">{{ post.timestamp }}</span></div>
@@ -58,7 +58,7 @@
         <div class="container">
             <div class="row">
                 <div class="col-md-10 offset-md-1 text-center">
-                    <p style="margin-bottom: 10px;">&copy; {% now "Y" %} by Backpack | All rights reserved.</p>
+                    <p style="margin-bottom: 10px;">&copy; {% now "Y" %} by Backpack. All rights reserved.</p>
                     <p>Template <a href="https://bootstrapious.com/p/bootstrap-carousel"
                             class="text-white">Bootstrapious</a> | Content <a href="https://theblondeabroad.com/"
                             class="text-white">Theblondeabroad</a> 

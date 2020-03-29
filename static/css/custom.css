@@ -93,15 +93,57 @@ section.featured-posts p,
     color: #999;
 }
 
-.btn-info, .btn-danger {
+.btn-info,
+.btn-danger {
     color: #fff;
     border-radius: 50% !important;
     line-height: 1.5;
     font-size: 25px;
 }
 
-.vote-tag{
-    font-weight:  300;
+.vote-tag {
+    font-weight: 300;
     font-size: 18px;
     margin-left: 5px;
+}
+
+.btn-outline-success {
+    border-width: 3px;
+    border-radius: 4px !important;
+}
+
+.btn-outline-success:hover {
+    color: white !important;
+}
+
+.btn-primary {
+    border-width: 3px;
+    border-radius: 4px !important;
+    border-color: #ec5252;
+    background-color: #ec5252;
+    color: white !important;
+}
+
+.btn-primary:hover {
+    color: #333 !important;
+    background-color: transparent;
+    border-color: #ec5252;
+}
+
+#avatar {
+    max-width: 40px;
+    min-width: 40px;
+    height: 40px;
+    overflow: hidden;
+    border-radius: 50%;
+    margin-right: 5px;
+    margin-left: 20px;
+}
+
+.dropdown {
+    margin-top: -6px;
+}
+
+.navbar-text {
+    padding-top: 0rem !important;
 }

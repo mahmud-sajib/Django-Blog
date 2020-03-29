@@ -67,23 +67,28 @@
               <li class="nav-item"><a href="#" class="nav-link ">Contact</a>
               </li>
               
-              
-
               {% if user.is_authenticated %}
-              <li class="nav-item"> 
-                  Hi, {{ user.username }} 
-              </li>
-
-              <li class="nav-item"><a href="{% url 'logout' %}" class="nav-link">Logout</a>
-              </li>
+                <li class="nav-item dropdown">
+                  <a class="nav-link dropdown-toggle" href="/" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    <img id="avatar" src="{{ user.author.profile_pic.url }}" alt="..." class="img-fluid">{{ user.username|capfirst }}
+                  </a>
+                  <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                    <a class="dropdown-item" href="{% url 'logout' %}">Logout</a>
+                    <a class="dropdown-item" href="{% url 'password_change' %}">Change Password</a>
+                  </div>
+                </li>
+                <!-- <li class="nav-item"> 
+                    {{ user.username }} 
+                </li>
+                <li class="nav-item"><a href="{% url 'logout' %}" class="nav-link">Logout</a>
+                </li>
+                <li class="nav-item"><a href="{% url 'password_change' %}" class="nav-link">Change Password</a>
+                </li> -->
               {% else %}
-
-              <li class="nav-item"><a href="{% url 'signup' %}" class="nav-link">Signup</a>
-              </li>
-
-              <li class="nav-item"><a href="{% url 'login' %}" class="nav-link">Login</a>
-              </li>
-
+                <li class="nav-item"><a href="{% url 'signup' %}" class="nav-link btn btn-outline-success">Signup</a>
+                </li>
+                <li class="nav-item"><a href="{% url 'login' %}" class="nav-link btn btn-primary">Login</a>
+                </li>
               {% endif %}
 
             </ul>
