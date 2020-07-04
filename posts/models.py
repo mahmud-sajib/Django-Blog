@@ -52,6 +52,11 @@ class Post(models.Model):
             'slug': self.slug
         })
 
+    # Use this method as a property 
+    @property
+    def comment_count(self):
+        return Comment.objects.filter(post=self).count()
+
 class Comment(models.Model):
     post = models.ForeignKey(Post, on_delete=models.CASCADE)
     user = models.ForeignKey(User, on_delete=models.CASCADE)

@@ -10,6 +10,18 @@
                 <button type="submit" class="submit"><i class="icon-search"></i></button>
             </div>
         </form>
+        {% if messages %}
+            <div class="search-msg">
+                {% for message in messages %}
+                <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                    {{ message }}
+                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                {% endfor %}
+            </div>
+        {% endif %}
     </div>
     <!-- Widget [Latest Posts Widget] -->
     <div class="widget latest-posts">
@@ -23,7 +35,8 @@
                     <div class="image"><img src="{{ recent_post.thumbnail.url }}" alt="..." class="img-fluid"></div>
                     <div class="title"><strong>{{ recent_post.title }}</strong>
                         <div class="d-flex align-items-center">
-                            <div class="views"><i class="icon-eye"></i> 500</div>
+                            <div class="views"><i class="fa fa-heart" aria-hidden="true"></i>
+                                {{ recent_post.likes.count }}</div>
                             <div class="comments"><i class="icon-comment"></i>{{ recent_post.comment_count }}</div>
                         </div>
                     </div>

@@ -1,8 +1,8 @@
 <!-- {% load static %} -->
-
+{% if request.user.is_authenticated %}
 <div class="post-comments">
     <header>
-        <h4 class="h6">Post Comments<span class="no-of-comments">({{ comments.count }})</span></h4>
+        <h4 class="h6"><span class="no-of-comments">{{ comments.count }}</span>comments in this post</h4>
     </header>
     {% for comment in comments %}
     <div class="comment">
@@ -27,7 +27,7 @@
             <button type="button" class="reply-link btn btn-link">Reply</button>
         </div>
         <!-- post comment reply -->
-        {% if request.user.is_authenticated %}
+        
         <div class="add-reply" style="display:none;">
             {% for reply in comment.replies.all %}
             <div class="comment-header d-flex justify-content-between">
@@ -64,12 +64,12 @@
                 </div>
             </form>
         </div>
-        {% endif %}
+        
     </div>
     {% endfor %}
 </div>
 <!-- comment form -->
-{% if request.user.is_authenticated %}
+
 <div class="add-comment">
     <header>
         <h4 class="h6">Leave a comment</h4>
@@ -81,9 +81,20 @@
                 {{ form }}
             </div>
             <div class="form-group col-md-12">
-                <input type="submit" value="Submit">
+                <button type="submit" class="btn btn-outline-primary">Submit</button>
             </div>
         </div>
     </form>
 </div>
+{% else %}
+
+<div class="post-comments">
+    <header>
+        <h4 class="h6"><span class="no-of-comments">{{ comments.count }}</span>comments in this post</h4>
+    </header>
+    <p>Please <a href="{% url 'login' %}" style="text-decoration: underline;">Login</a> to comment</p>
+    
+</div>
+
 {% endif %}
+

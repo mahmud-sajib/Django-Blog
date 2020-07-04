@@ -12,6 +12,9 @@ from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 # String module
 from django.template.loader import render_to_string
 
+# importing messages
+from django.contrib import messages
+
 # Create your views here.
 
 # Home page view.
@@ -148,11 +151,15 @@ def post_like(request):
 def search_result(request):
     queryset = Post.objects.all()
     search_query = request.GET.get('q')
+
     if search_query:
         queryset = queryset.filter(
             Q(title__icontains=search_query) | Q(overview__icontains=search_query) 
         ).distinct()
         q_count = queryset.count()
+    else:
+        messages.error(request, f"Oops! Looks like you didn't put any keyword. Please try again.")
+        return redirect('blog')
 
     context = {
         'queryset':queryset,

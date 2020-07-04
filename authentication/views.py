@@ -10,10 +10,10 @@ def signup(request):
         form = UserCreationForm(request.POST or None)
         if form.is_valid():
             form.save()
-            return redirect('index')
+            return redirect('login')
     else:
         form = UserCreationForm()
 
     context = {'form':form}
-    return render(request, 'authentication/signup.html', context)
+    return render(request, 'registration/signup.html', context)
     

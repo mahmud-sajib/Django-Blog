@@ -147,3 +147,16 @@ section.featured-posts p,
 .navbar-text {
     padding-top: 0rem !important;
 }
+
+.pd30{
+    padding: 30px 0;
+}
+
+a{
+    color: #60B0F4;
+}
+
+.blog-post .post-comments span.no-of-comments {
+	color: #60B0F4;
+	font-size: 2.8em;
+}

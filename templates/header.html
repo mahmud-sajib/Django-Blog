@@ -34,21 +34,6 @@
     <header class="header">
       <!-- Main Navbar-->
       <nav class="navbar navbar-expand-lg">
-        <div class="search-area">
-          <div class="search-area-inner d-flex align-items-center justify-content-center">
-            <div class="close-btn"><i class="icon-close"></i></div>
-            <div class="row d-flex justify-content-center">
-              <div class="col-md-8">
-                <form action="{% url 'search-result' %}">
-                  <div class="form-group">
-                    <input type="text" name="q" id="search" placeholder="What are you looking for?">
-                    <button type="submit" class="submit"><i class="icon-search-1"></i></button>
-                  </div>
-                </form>
-              </div>
-            </div>
-          </div>
-        </div>
         <div class="container">
           <!-- Navbar Brand -->
           <div class="navbar-header d-flex align-items-center justify-content-between">
@@ -64,8 +49,7 @@
               <li class="nav-item"><a href="{% url 'blog' %}" class="nav-link">Blog</a>
               </li>
              
-              <li class="nav-item"><a href="#" class="nav-link ">Contact</a>
-              </li>
+             
               
               {% if user.is_authenticated %}
                 <li class="nav-item dropdown">
@@ -74,16 +58,9 @@
                   </a>
                   <div class="dropdown-menu" aria-labelledby="navbarDropdown">
                     <a class="dropdown-item" href="{% url 'logout' %}">Logout</a>
-                    <a class="dropdown-item" href="{% url 'password_change' %}">Change Password</a>
                   </div>
                 </li>
-                <!-- <li class="nav-item"> 
-                    {{ user.username }} 
-                </li>
-                <li class="nav-item"><a href="{% url 'logout' %}" class="nav-link">Logout</a>
-                </li>
-                <li class="nav-item"><a href="{% url 'password_change' %}" class="nav-link">Change Password</a>
-                </li> -->
+                
               {% else %}
                 <li class="nav-item"><a href="{% url 'signup' %}" class="nav-link btn btn-outline-success">Signup</a>
                 </li>
@@ -92,7 +69,7 @@
               {% endif %}
 
             </ul>
-            <div class="navbar-text"><a href="#" class="search-btn"><i class="icon-search-1"></i></a></div>
+            
             
           </div>
         </div>
