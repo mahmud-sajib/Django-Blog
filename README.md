@@ -1,4 +1,4 @@
-# Django-Blog
-Django blog is a blog app suited best for solo traveler. It has all the functionalities that a modern blog is supposed to have. 
+# Travel-Blog
+Travel Blog is a modern blogging app tailored for solo travelers, with features like post creation, editing, comments, tags, and responsive design for seamless content sharing.
 
 
